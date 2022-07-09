@@ -35,7 +35,7 @@ int main(void) {
 	FILE *fp_write=NULL;
 	for (int a = NUMBER; a < NUMBER + 100 * TIER; a++) {
 		FILE * fp = NULL;
-		sprintf(filename, "/Users/watanabeshun/Documents/alpha=%.1f/%d-%d-%d/%05d.txt", ALPHA,TIER, STACK, nblock, a);
+		sprintf(filename, "/home/lab02/s-watanabe/デスクトップ/BlockRelocationProblem/duplicate-double/alpha=%.1f/%d-%d-%d/%05d.txt", ALPHA,TIER, STACK, nblock, a);
 		printf("%s\n", filename);
 
 		clock_t max_s=clock();
@@ -80,6 +80,7 @@ int main(void) {
 			k++;
 		}
 		fclose(fp);
+		/*
 		if (a % 100 == 1) {
 			sprintf(filename, "/Users/watanabeshun/Documents/alpha=%.1f/%d-%d-%d.csv", ALPHA, TIER, STACK, nblock);
 			fp_csv=fopen(filename, "r");
@@ -93,10 +94,11 @@ int main(void) {
 			missmatch++;
 		}
 		fprintf(fp_write, "%d\n", min_relocation);
+		*/
 		if (a % 100 == 0) {
 			nblock++;
-			fclose(fp_csv);
-			fclose(fp_write);
+			//fclose(fp_csv);
+			//fclose(fp_write);
 		}
 	Array_clear(stack);
 	}
