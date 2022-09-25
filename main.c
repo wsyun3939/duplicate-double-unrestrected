@@ -67,7 +67,7 @@ int main(void) {
 		int priority = 1;
 		// int UB = UpperBound(stack,priority,both);
 		int min_relocation = 
-		branch_and_bound(stack, 100,UB_cur, LB1,priority,both,0,0);
+		branch_and_bound(stack, 100,UB_cur, LB1,priority,both,0,0,clock());
 		//int min_relocation = enumerate_relocation(stack, depth, priority, both);
 		printf("min_relocation:%d,difference%d\n", min_relocation, min_relocation - LB1);
 		clock_t max_e=clock();
@@ -104,7 +104,7 @@ int main(void) {
 	}
 	clock_t end = clock();
 	Array_terminate(stack);
-	printf("time:%f,max_time=%f,match:%d,ave:%f,missmatch:%d\n", (double)(end - start) / (CLOCKS_PER_SEC*100*TIER),max_time/CLOCKS_PER_SEC, k, (double)sum / (100 * TIER-invalid),missmatch);
+	printf("time:%f,max_time=%f,match:%d,ave:%f,gap:%f,missmatch:%d\n", (double)(end - start) / (CLOCKS_PER_SEC*100*TIER),max_time/CLOCKS_PER_SEC, k, (double)sum / (100 * TIER-invalid),(double)gap/(100*TIER-k),missmatch);
 	return 0;
 }
 
