@@ -7,7 +7,7 @@
 #include "data_info.h"
 
 #ifdef EITHER
-int branch_and_bound(IntDequeue *q, int UB,int UB_cur, int LB,int priority, direction Dir,int DstDeque,int k) {
+int branch_and_bound(IntDequeue *q, int UB,int UB_cur, int LB,int priority, direction Dir,int DstDeque,int k,clcok_t start) {
 	static int num_ret;
 	static int depth = 0;
 	static int SecondPosition = 0;
@@ -29,12 +29,11 @@ int branch_and_bound(IntDequeue *q, int UB,int UB_cur, int LB,int priority, dire
 	direction DirNext = Dir;
 	IntDequeue *q_temp = NULL;
 
-	static double total=0;
-	double start,end;
+	clock_t end;
 
-	start=clock()/CLOCKS_PER_SEC;
-	if(total>3){
-		total=0;
+	end=clock();
+	if(((double)(end-start)/CLOCKS_PER_SEC)>7200){
+		depth=0;
 		return -1;
 	}
 
@@ -203,9 +202,8 @@ int branch_and_bound(IntDequeue *q, int UB,int UB_cur, int LB,int priority, dire
 					return MinRelocation;
 				}			
 				
-				end=clock()/CLOCKS_PER_SEC;
-				total+=end-start;
-				ans=branch_and_bound(q_temp, UB, UB_cur, LB_temp,q_temp[0].que[q_temp[0].min_idx[0]], DirNext,DstDeque,0);
+
+				ans=branch_and_bound(q_temp, UB, UB_cur, LB_temp,q_temp[0].que[q_temp[0].min_idx[0]], DirNext,DstDeque,0,start);
 				if (ans!=0 && ans!=-1) {
 					Array_terminate(q_temp);
 					free(q_temp);
@@ -240,9 +238,7 @@ int branch_and_bound(IntDequeue *q, int UB,int UB_cur, int LB,int priority, dire
 				Array_print(q_temp);
 #endif
 
-						end=clock()/CLOCKS_PER_SEC;
-						total+=end-start;
-						ans=branch_and_bound(q_temp, UB, UB_cur, LB_temp,priority, DirNext,j,i);
+						ans=branch_and_bound(q_temp, UB, UB_cur, LB_temp,priority, DirNext,j,i,start);
 						if (ans!=0 && ans!=-1) {
 						Array_terminate(q_temp);
 						free(q_temp);
@@ -282,9 +278,7 @@ int branch_and_bound(IntDequeue *q, int UB,int UB_cur, int LB,int priority, dire
 				Array_print(q);
 #endif
 
-				end=clock()/CLOCKS_PER_SEC;
-				total+=end-start;
-				ans=branch_and_bound(q, UB, UB_cur, LB_temp,priority, lower,j,k);
+				ans=branch_and_bound(q, UB, UB_cur, LB_temp,priority, lower,j,k,start);
 				if(ans!=0 && ans!=-1){
 					return MinRelocation;
 				}
@@ -353,9 +347,7 @@ int branch_and_bound(IntDequeue *q, int UB,int UB_cur, int LB,int priority, dire
 				Array_print(q_temp);
 #endif
 
-						end=clock()/CLOCKS_PER_SEC;
-						total+=end-start;
-						ans=branch_and_bound(q_temp, UB, UB_cur, LB_temp,priority, DirNext,j,i);
+						ans=branch_and_bound(q_temp, UB, UB_cur, LB_temp,priority, DirNext,j,i,start);
 						if (ans!=0 && ans!=-1) {
 						Array_terminate(q_temp);
 						free(q_temp);
@@ -394,9 +386,7 @@ int branch_and_bound(IntDequeue *q, int UB,int UB_cur, int LB,int priority, dire
 				Array_print(q);
 #endif
 
-				end=clock()/CLOCKS_PER_SEC;
-				total+=end-start;
-				ans=branch_and_bound(q, UB, UB_cur, LB_temp+1, priority,lower,j,k);
+				ans=branch_and_bound(q, UB, UB_cur, LB_temp+1, priority,lower,j,k,start);
 				if(ans!=0 && ans!=-1){
 					return MinRelocation;
 				}
@@ -429,9 +419,7 @@ int branch_and_bound(IntDequeue *q, int UB,int UB_cur, int LB,int priority, dire
 			printf("UB_cur++\n");
 #endif
 
-			end=clock()/CLOCKS_PER_SEC;
-			total+=end-start;
-			ans=branch_and_bound(q, UB, UB_cur, LB, priority, both,0,0);
+			ans=branch_and_bound(q, UB, UB_cur, LB, priority, both,0,0,start);
 			if (ans!=0 && ans!=-1) {
 				return MinRelocation;
 			}
