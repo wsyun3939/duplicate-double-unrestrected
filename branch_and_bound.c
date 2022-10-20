@@ -7,7 +7,7 @@
 #include "data_info.h"
 
 #ifdef EITHER
-int branch_and_bound(IntDequeue *q, int UB,int UB_cur, int LB,int priority, direction Dir,int DstDeque,int k,clcok_t start) {
+int branch_and_bound(IntDequeue *q, int UB,int UB_cur, int LB,int priority, direction Dir,int DstDeque,int k,clock_t start) {
 	static int num_ret;
 	static int depth = 0;
 	static int SecondPosition = 0;
