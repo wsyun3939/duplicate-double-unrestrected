@@ -83,7 +83,7 @@ int main(void) {
 		}
 		fclose(fp);
 		if (a % 100 == 1) {
-			sprintf(filename, "../alpha=%.1f/%d-%d-%d_unfixed.csv", ALPHA,TIER, STACK, nblock);
+			sprintf(filename, "../alpha=%.1f/%d-%d-%d_unrestricted.csv", ALPHA,TIER, STACK, nblock);
 			fp_write = fopen(filename, "w");
 		}
 		fprintf(fp_write, "%d\n", min_relocation);
