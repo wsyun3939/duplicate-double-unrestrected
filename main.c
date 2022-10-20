@@ -25,6 +25,7 @@ int main(void) {
 	int nblock = NBLOCK;
 	int i, j, x, l;
 	int k = 0;
+	int gap=0;
 	int invalid=0;
 	int sum = 0;
 	int missmatch=0;
@@ -65,9 +66,10 @@ int main(void) {
 		Array_print(stack);
 		int UB_cur = LB1;
 		int priority = 1;
-		// int UB = UpperBound(stack,priority,both);
+		int UB = UpperBound(stack);
 		int min_relocation = 
-		branch_and_bound(stack, 100,UB_cur, LB1,priority,both,0,0,clock());
+		branch_and_bound(stack, UB,UB_cur, LB1,priority,both,0,0,clock());
+		gap+=min_relocation-LB1;
 		//int min_relocation = enumerate_relocation(stack, depth, priority, both);
 		printf("min_relocation:%d,difference%d\n", min_relocation, min_relocation - LB1);
 		clock_t max_e=clock();
@@ -80,25 +82,15 @@ int main(void) {
 			k++;
 		}
 		fclose(fp);
-		/*
 		if (a % 100 == 1) {
-			sprintf(filename, "/Users/watanabeshun/Documents/alpha=%.1f/%d-%d-%d.csv", ALPHA, TIER, STACK, nblock);
-			fp_csv=fopen(filename, "r");
 			sprintf(filename, "/Users/watanabeshun/Documents/Benchmark/%d-%d-%d_unfixed.csv", TIER, STACK, nblock);
 			fp_write = fopen(filename, "w");
 		}
 		fscanf(fp_csv, "%d ", &x);
-		if (x != min_relocation) {
-			if(x<min_relocation) getchar();
-			printf("missmatch\n");
-			missmatch++;
-		}
 		fprintf(fp_write, "%d\n", min_relocation);
-		*/
 		if (a % 100 == 0) {
 			nblock++;
-			//fclose(fp_csv);
-			//fclose(fp_write);
+			fclose(fp_write);
 		}
 	Array_clear(stack);
 	}
