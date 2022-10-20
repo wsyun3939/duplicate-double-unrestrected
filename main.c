@@ -86,7 +86,6 @@ int main(void) {
 			sprintf(filename, "../alpha=%.1f/%d-%d-%d_unfixed.csv", ALPHA,TIER, STACK, nblock);
 			fp_write = fopen(filename, "w");
 		}
-		fscanf(fp_csv, "%d ", &x);
 		fprintf(fp_write, "%d\n", min_relocation);
 		if (a % 100 == 0) {
 			nblock++;
