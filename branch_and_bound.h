@@ -46,12 +46,6 @@ int LBcmp(const LB_idx *n1, const LB_idx *n2);
 int BlockingCmp(const IntDequeue *n1, const IntDequeue *n2);
 
 //*---近似解法により上界値を求める---*//
-int UpperBound(const IntDequeue *q,int priority, direction dir);
-
-//*---ブロックを積み替えた際、移動先でブロッキングブロックになるか---*//
-LB_idx* CreateBlockingTable(IntDequeue *q, direction dir,int *Size);
-
-//*---通常の分枝限定法---*//
-int enumerate_relocation(IntDequeue *q, int depth, int priority, direction Dir);
+int UpperBound(const IntDequeue *q);
 
 #endif
