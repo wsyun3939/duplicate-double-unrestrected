@@ -32,7 +32,7 @@ int branch_and_bound(IntDequeue *q, int UB,int UB_cur, int LB,int priority, dire
 	clock_t end;
 
 	end=clock();
-	if(((double)(end-start)/CLOCKS_PER_SEC)>7200){
+	if(((double)(end-start)/CLOCKS_PER_SEC)>1){
 		depth=0;
 		return -1;
 	}
