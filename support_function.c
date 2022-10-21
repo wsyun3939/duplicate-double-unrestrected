@@ -270,18 +270,9 @@ int UpperBound(const IntDequeue *q) {
 		printf("Block Relocation(depth=%d)\n",UB);
 #endif
 
-		qsort(q_temp, k, sizeof(IntDequeue), (int(*)(const void *, const void *))BlockingCmp);
+		
 		if(DirNext==both){
-			for(i=0;i<k;i++){
-				if (i != 0) {
-				Swap_IntDequeue(&q_temp[0], &q_temp[i]);
-			}
-
-#if TEST==0
-				printf("swap(%d,%d)\n", 0, i);
-				Array_print(q_temp);
-#endif
-
+			qsort(q_temp, k, sizeof(IntDequeue), (int(*)(const void *, const void *))BlockingCmp);
 			DirNext=upper;
 			dir = q_temp[0].dir;
 			int low=nblocking_lower(q_temp);
@@ -307,7 +298,11 @@ int UpperBound(const IntDequeue *q) {
 		for(d=1;d<STACK-1;d++){
 			num_open+=TIER-q_temp[d].num;
 		}
-		if(num_open<nblocking(q_temp,dir));
+		if(num_open<nblocking(q_temp,dir)){
+			Array_terminate(q_temp);
+			free(q_temp);
+			return 100;
+		}
 		else{
 		if(nblocking(q_temp,dir)==1) DirNext=both;
 		else DirNext=dir;
@@ -326,7 +321,6 @@ int UpperBound(const IntDequeue *q) {
 		}
 		break;
 		}
-	}	
 		}
 		else{
 			dir=q_temp[0].dir;
