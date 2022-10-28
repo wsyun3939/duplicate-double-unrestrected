@@ -155,7 +155,7 @@ int BlockingCmp(const IntDequeue *n1, const IntDequeue *n2) {
 int UpperBound(const IntDequeue *q) {
 	static int num_ret;
 	static int NumBlocking = 0;
-	static int p_before = 0;
+	int p_before = 0;
 	int priority=1;
 	int UB=0;
 	int i = 0;
