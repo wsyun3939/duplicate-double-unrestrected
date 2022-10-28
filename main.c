@@ -91,7 +91,7 @@ int main(void) {
 			sprintf(filename, "../alpha=%.1f/%d-%d-%d_unrestricted.csv", ALPHA,TIER, STACK, nblock);
 			fp_write = fopen(filename, "w");
 		}
-		fprintf(fp_write, "%d\n", min_relocation);
+		fprintf(fp_write, "%d\n", UB);
 		if (a % 100 == 0) {
 			nblock++;
 			fclose(fp_write);
