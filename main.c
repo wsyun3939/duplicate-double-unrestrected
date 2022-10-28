@@ -99,7 +99,7 @@ int main(void) {
 	}
 	clock_t end = clock();
 	Array_terminate(stack);
-	printf("time:%f,max_time=%f,match:%d,ave:%f,gap:%f,missmatch:%d,invalid:%d,UB_gap:%f\n", (double)(end - start) / (CLOCKS_PER_SEC*100*TIER),max_time/CLOCKS_PER_SEC, k, (double)sum / (100 * TIER-invalid),(double)gap/(100*TIER-k-invalid),missmatch,invalid,(double)UB_gap/(100*TIER-k-invalid));
+	printf("time:%f,max_time=%f,match:%d,ave:%f,gap:%f,missmatch:%d,invalid:%d,UB_gap:%f\n", (double)(end - start) / (CLOCKS_PER_SEC*100*TIER),max_time/CLOCKS_PER_SEC, k, (double)sum / (100 * TIER-invalid),(double)gap/(100*TIER-k-invalid),missmatch,invalid,(double)UB_gap/(100*TIER-invalid));
 	return 0;
 }
 
