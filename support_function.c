@@ -301,7 +301,7 @@ int UpperBound(const IntDequeue *q) {
 		if(num_open<nblocking(q_temp,dir)){
 			Array_terminate(q_temp);
 			free(q_temp);
-			return 100;
+			return 0;
 		}
 		else{
 		if(nblocking(q_temp,dir)==1) DirNext=both;
@@ -319,7 +319,6 @@ int UpperBound(const IntDequeue *q) {
 		break;
 		}
 		}
-		break;
 		}
 		}
 		else{
