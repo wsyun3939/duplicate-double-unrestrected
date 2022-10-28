@@ -26,6 +26,7 @@ int main(void) {
 	int i, j, x, l;
 	int k = 0;
 	int gap=0;
+	int UB_gap=0;
 	int invalid=0;
 	int sum = 0;
 	int missmatch=0;
@@ -79,6 +80,7 @@ int main(void) {
 		else {
 			sum += min_relocation;
 			gap+=min_relocation-LB1;
+			UB_gap+=UB-min_relocation;
 		}
 		if (min_relocation == LB1) {
 			k++;
@@ -97,7 +99,7 @@ int main(void) {
 	}
 	clock_t end = clock();
 	Array_terminate(stack);
-	printf("time:%f,max_time=%f,match:%d,ave:%f,gap:%f,missmatch:%d,invalid:%d\n", (double)(end - start) / (CLOCKS_PER_SEC*100*TIER),max_time/CLOCKS_PER_SEC, k, (double)sum / (100 * TIER-invalid),(double)gap/(100*TIER-k-invalid),missmatch,invalid);
+	printf("time:%f,max_time=%f,match:%d,ave:%f,gap:%f,missmatch:%d,invalid:%d,UB_gap:%f\n", (double)(end - start) / (CLOCKS_PER_SEC*100*TIER),max_time/CLOCKS_PER_SEC, k, (double)sum / (100 * TIER-invalid),(double)gap/(100*TIER-k-invalid),missmatch,invalid,(double)UB_gap/(100*TIER-k-invalid));
 	return 0;
 }
 
