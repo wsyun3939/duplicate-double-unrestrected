@@ -80,7 +80,8 @@ int main(void) {
 		else {
 			sum += min_relocation;
 			gap+=min_relocation-LB1;
-			UB_gap+=UB-min_relocation;
+			if(UB!=0)
+				UB_gap+=UB-min_relocation;
 		}
 		if (min_relocation == LB1) {
 			k++;
