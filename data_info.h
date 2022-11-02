@@ -2,10 +2,10 @@
 #define ___data_info
 
 #define ALPHA 0.2
-#define TIER 7
-#define STACK 7
-#define NBLOCK 42
-#define NUMBER 4301
+#define TIER 6
+#define STACK 6
+#define NBLOCK 30
+#define NUMBER 1201
 #define TEST 1
 #define EITHER
 #define DISTINCTIVE

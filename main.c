@@ -74,7 +74,6 @@ int main(void)
 		int UB = UpperBound(stack);
 		int min_relocation =
 			branch_and_bound(stack, UB, UB_cur, LB1, priority, both, 0, 0, clock());
-		// int min_relocation = enumerate_relocation(stack, depth, priority, both);
 		printf("min_relocation:%d,difference%d\n", min_relocation, min_relocation - LB1);
 		clock_t max_e = clock();
 		if (max_time < (max_e - max_s))
@@ -100,7 +99,10 @@ int main(void)
 			sprintf(filename, "../alpha=%.1f/%d-%d-%d_unrestricted.csv", ALPHA, TIER, STACK, nblock);
 			fp_write = fopen(filename, "w");
 		}
-		fprintf(fp_write, "%d\n", UB);
+		if (fp_write != NULL)
+		{
+			fprintf(fp_write, "%d\n", UB);
+		}
 		if (a % 100 == 0)
 		{
 			nblock++;

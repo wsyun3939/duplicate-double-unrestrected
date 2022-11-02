@@ -16,11 +16,6 @@ int branch_and_bound(IntDequeue *q, int UB, int UB_cur, int LB, int priority, di
 	static int NumBlocking = 0;
 	static int p_before = 1;
 	static int ans = 0;
-	if (UB == UB_cur)
-	{
-		depth = 0;
-		return MinRelocation = UB;
-	}
 	int i = 0;
 	int j = 0;
 	int d = 0;
@@ -38,6 +33,12 @@ int branch_and_bound(IntDequeue *q, int UB, int UB_cur, int LB, int priority, di
 	{
 		depth = 0;
 		return -1;
+	}
+
+	if (UB == UB_cur)
+	{
+		depth = 0;
+		return MinRelocation = UB;
 	}
 
 	switch (dir)

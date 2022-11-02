@@ -5,3 +5,5 @@ lower_bound.o
 main.o
 support_function.o
 distinctive-double-
+data_info.h
+.vscode/
