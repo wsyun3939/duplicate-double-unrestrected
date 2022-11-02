@@ -6,28 +6,31 @@
 #include <time.h>
 
 #ifdef EITHER
-typedef struct{
-	int idx;		//*スタックの添え字*//
-	int blocking;		//*ブロッキングとなるかどうか*//
-}	LB_idx;
+typedef struct
+{
+	int idx;	  //*スタックの添え字*//
+	int blocking; //*ブロッキングとなるかどうか*//
+} LB_idx;
 #endif
 #ifdef BOTH
-typedef struct {
-	int idx;		//*スタックの添え字*//
-	int blocking;		//*ブロッキングとなるかどうか*//
+typedef struct
+{
+	int idx;	  //*スタックの添え字*//
+	int blocking; //*ブロッキングとなるかどうか*//
 	direction dir;
-}	LB_idx;
+} LB_idx;
 #endif
 
-typedef struct {
+typedef struct
+{
 	int num_blocking; //ブロッキングブロック数
-	int num_block;	//スタックのブロック数
-	int stack_idx;		//取り出すスタックの添え字
-	direction dir;		//取り出す方向
+	int num_block;	  //スタックのブロック数
+	int stack_idx;	  //取り出すスタックの添え字
+	direction dir;	  //取り出す方向
 } Blocking;
 
 //*---仮上界値を用いた分枝限定法---*//
-int branch_and_bound(IntDequeue *q, int UB,int UB_cur, int LB, int priority,direction dir,int DstDeque,int k,clock_t start);
+int branch_and_bound(IntDequeue *q, int UB, int UB_cur, int LB, int priority, direction dir, int DstDeque, int k, clock_t start);
 
 //*---挿入ソート---*//
 int insert_sort(IntDequeue *q);
