@@ -26,15 +26,18 @@ int main(void)
 	int nblock = NBLOCK;
 	int i, j, x, l;
 	int k = 0;
+
 	int gap = 0;
 	int UB_gap = 0;
-	int invalid = 0;
+
+	int timeup = 0;
+	int infeasible = 0;
+
 	int sum = 0;
 	int missmatch = 0;
 	double max_time = 0;
 	char filename[BUFFER];
 	char str[BUFFER];
-	FILE *fp_csv = NULL;
 	FILE *fp_write = NULL;
 	for (int a = NUMBER; a < NUMBER + 100 * TIER; a++)
 	{
@@ -80,14 +83,18 @@ int main(void)
 			max_time = max_e - max_s;
 		if (min_relocation == -1)
 		{
-			invalid++;
+			timeup++;
 		}
 		else
 		{
 			sum += min_relocation;
 			gap += min_relocation - LB1;
 			if (UB != 0)
+			{
 				UB_gap += UB - min_relocation;
+			}
+			else
+				infeasible++;
 		}
 		if (min_relocation == LB1)
 		{
@@ -112,6 +119,6 @@ int main(void)
 	}
 	clock_t end = clock();
 	Array_terminate(stack);
-	printf("time:%f,max_time=%f,match:%d,ave:%f,gap:%f,missmatch:%d,invalid:%d,UB_gap:%f\n", (double)(end - start) / (CLOCKS_PER_SEC * 100 * TIER), max_time / CLOCKS_PER_SEC, k, (double)sum / (100 * TIER - invalid), (double)gap / (100 * TIER - k - invalid), missmatch, invalid, (double)UB_gap / (100 * TIER - invalid));
+	printf("time:%f,max_time=%f,match:%d,ave:%f,gap:%f,missmatch:%d,timeup:%d,infeasible:%d,UB_gap:%f\n", (double)(end - start) / (CLOCKS_PER_SEC * 100 * TIER), max_time / CLOCKS_PER_SEC, k, (double)sum / (100 * TIER - timeup), (double)gap / (100 * TIER - k - timeup), missmatch, timeup, infeasible, (double)UB_gap / (100 * TIER - timeup - infeasible));
 	return 0;
 }
