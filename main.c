@@ -135,7 +135,8 @@ int main(void)
 	putchar('\n');
 	printf("time:%f,max_time=%f,match:%d,ave:%f,gap:%f,missmatch:%d,timeup:%d,infeasible:%d,UB_gap:%f\n", (double)(end - start) / (CLOCKS_PER_SEC * 100 * TIER), max_time / CLOCKS_PER_SEC, k, (double)sum / (100 * TIER - timeup), (double)gap / (100 * TIER - k - timeup), missmatch, timeup, infeasible, (double)UB_gap / (100 * TIER - timeup - infeasible));
 
-	printf("UB_lapse:%f,sol_lapse:%f\n", (double)UB_lapse / CLOCKS_PER_SEC, (double)sol_lapse / CLOCKS_PER_SEC);
+	printf("UB_lapse:%f,sol_lapse:%f,UB_ratio:%f\n", (double)UB_lapse / CLOCKS_PER_SEC, (double)sol_lapse / CLOCKS_PER_SEC,
+		   (double)100 * UB_lapse / (UB_lapse + sol_lapse));
 
 	return 0;
 }
