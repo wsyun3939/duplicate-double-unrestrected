@@ -35,6 +35,12 @@ int branch_and_bound(IntDequeue *q, int UB, int UB_cur, int LB, int priority, di
 		return -1;
 	}
 
+	int UB_temp = UpperBound(q);
+	if (UB > UB_temp)
+	{
+		UB = UB_temp;
+	}
+	
 	if (UB == UB_cur)
 	{
 		depth = 0;
