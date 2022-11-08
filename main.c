@@ -87,7 +87,6 @@ int main(void)
 		time_start = clock();
 		int min_relocation =
 			branch_and_bound(stack, UB, UB_cur, LB1, priority, both, 0, 0, clock());
-		sol_lapse += clock() - time_start;
 
 		printf("min_relocation:%d,difference%d\n", min_relocation, min_relocation - LB1);
 		clock_t max_e = clock();
@@ -96,11 +95,14 @@ int main(void)
 		if (min_relocation == -1)
 		{
 			timeup++;
+			getchar();
 		}
 		else
 		{
+			sol_lapse += clock() - time_start;
 			sum += min_relocation;
 			gap += min_relocation - LB1;
+			break;
 			if (UB != -1)
 			{
 				UB_gap += UB - min_relocation;
