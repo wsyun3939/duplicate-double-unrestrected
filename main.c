@@ -44,102 +44,99 @@ int main(void)
 	char str[BUFFER];
 	FILE *fp_write = NULL;
 
-	for (int s = STACK; s <= 10; s++)
+	for (int a = NUMBER; a < NUMBER + 100 * TIER; a++)
 	{
-		for (int a = NUMBER + 2500 * (s - 6); a < NUMBER + 100 * TIER + 2500 * (s - 6); a++)
+		FILE *fp = NULL;
+		sprintf(filename, "../alpha=%.1f/%d-%d-%d/%05d.txt", ALPHA, TIER, STACK, nblock, a);
+		printf("%s\n", filename);
+
+		clock_t max_s = clock();
+		//	読み込みモードでファイルを開く
+		fp = fopen(filename, "r");
+
+		fgets(str, BUFFER, fp);
+		fgets(str, BUFFER, fp);
+		fgets(str, BUFFER, fp);
+
+		// スタック数と高さを読み込む　//
+		for (i = 0; i < STACK; i++)
 		{
-			FILE *fp = NULL;
-			sprintf(filename, "../alpha=%.1f/%d-%d-%d/%05d.txt", ALPHA, TIER, s, nblock, a);
-			printf("%s\n", filename);
-
-			clock_t max_s = clock();
-			//	読み込みモードでファイルを開く
-			fp = fopen(filename, "r");
-
-			fgets(str, BUFFER, fp);
-			fgets(str, BUFFER, fp);
-			fgets(str, BUFFER, fp);
-
-			// スタック数と高さを読み込む　//
-			for (i = 0; i < STACK; i++)
+			fscanf(fp, "%d ", &l);
+			for (j = 0; j < l; j++)
 			{
-				fscanf(fp, "%d ", &l);
-				for (j = 0; j < l; j++)
-				{
-					fscanf(fp, "%d ", &x);
-					EnqueRear(&stack[i], x);
-				}
+				fscanf(fp, "%d ", &x);
+				EnqueRear(&stack[i], x);
 			}
+		}
 
-			//*---LB1---*//
-			int LB1 = lower_bound1(stack);
-			printf("LB1:%d\n", LB1);
+		//*---LB1---*//
+		int LB1 = lower_bound1(stack);
+		printf("LB1:%d\n", LB1);
 
-			qsort(stack, STACK, sizeof(IntDequeue), (int (*)(const void *, const void *))pricmp);
+		qsort(stack, STACK, sizeof(IntDequeue), (int (*)(const void *, const void *))pricmp);
 
-			printf("sort:\n");
-			Array_print(stack);
-			int UB_cur = LB1;
-			int priority = 1;
+		printf("sort:\n");
+		Array_print(stack);
+		int UB_cur = LB1;
+		int priority = 1;
 
-			clock_t time_start = clock();
-			int UB = UpperBound(stack);
-			UB_lapse += clock() - time_start;
+		clock_t time_start = clock();
+		int UB = UpperBound(stack);
+		UB_lapse += clock() - time_start;
 
-			time_start = clock();
-			int min_relocation =
-				branch_and_bound(stack, UB, UB_cur, LB1, priority, both, 0, 0, clock());
+		time_start = clock();
+		int min_relocation =
+			branch_and_bound(stack, UB, UB_cur, LB1, priority, both, 0, 0, clock());
 
-			printf("min_relocation:%d,difference%d\n", min_relocation, min_relocation - LB1);
-			clock_t max_e = clock();
-			if (max_time < (max_e - max_s))
-				max_time = max_e - max_s;
-			if (min_relocation == -1)
+		printf("min_relocation:%d,difference%d\n", min_relocation, min_relocation - LB1);
+		clock_t max_e = clock();
+		if (max_time < (max_e - max_s))
+			max_time = max_e - max_s;
+		if (min_relocation == -1)
+		{
+			timeup++;
+		}
+		else
+		{
+			sol_lapse += clock() - time_start;
+			sum += min_relocation;
+			gap += min_relocation - LB1;
+			if (UB != -1)
 			{
-				timeup++;
+				UB_gap += UB - min_relocation;
 			}
 			else
-			{
-				sol_lapse += clock() - time_start;
-				sum += min_relocation;
-				gap += min_relocation - LB1;
-				if (UB != -1)
-				{
-					UB_gap += UB - min_relocation;
-				}
-				else
-					infeasible++;
-			}
-			if (min_relocation == LB1)
-			{
-				k++;
-			}
-			fclose(fp);
-			if (a % 100 == 1)
-			{
-				sprintf(filename, "../alpha=%.1f/%d-%d-%d_unrestricted.csv", ALPHA, TIER, s, nblock);
-				fp_write = fopen(filename, "w");
-			}
-			if (fp_write != NULL)
-			{
-				fprintf(fp_write, "%d\n", min_relocation);
-			}
-			if (a % 100 == 0)
-			{
-				nblock++;
-				fclose(fp_write);
-			}
-			Array_clear(stack);
+				infeasible++;
 		}
+		if (min_relocation == LB1)
+		{
+			k++;
+		}
+		fclose(fp);
+		if (a % 100 == 1)
+		{
+			sprintf(filename, "../alpha=%.1f/%d-%d-%d_unrestricted.csv", ALPHA, TIER, STACK, nblock);
+			fp_write = fopen(filename, "w");
+		}
+		if (fp_write != NULL)
+		{
+			fprintf(fp_write, "%d\n", min_relocation);
+		}
+		if (a % 100 == 0)
+		{
+			nblock++;
+			fclose(fp_write);
+		}
+		Array_clear(stack);
 	}
-	clock_t end = clock();
-	Array_terminate(stack);
+clock_t end = clock();
+Array_terminate(stack);
 
-	putchar('\n');
-	printf("time:%f,max_time=%f,match:%d,ave:%f,gap:%f,missmatch:%d,timeup:%d,infeasible:%d,UB_gap:%f\n", (double)(end - start) / (CLOCKS_PER_SEC * 100 * TIER), max_time / CLOCKS_PER_SEC, k, (double)sum / (100 * TIER - timeup), (double)gap / (100 * TIER - k - timeup), missmatch, timeup, infeasible, (double)UB_gap / (100 * TIER - timeup - infeasible));
+putchar('\n');
+printf("time:%f,max_time=%f,match:%d,ave:%f,gap:%f,missmatch:%d,timeup:%d,infeasible:%d,UB_gap:%f\n", (double)(end - start) / (CLOCKS_PER_SEC * 100 * TIER), max_time / CLOCKS_PER_SEC, k, (double)sum / (100 * TIER - timeup), (double)gap / (100 * TIER - k - timeup), missmatch, timeup, infeasible, (double)UB_gap / (100 * TIER - timeup - infeasible));
 
-	printf("UB_lapse:%f,sol_lapse:%f,UB_ratio:%f%%\n", (double)UB_lapse / CLOCKS_PER_SEC, (double)sol_lapse / CLOCKS_PER_SEC,
-		   (double)100 * UB_lapse / (UB_lapse + sol_lapse));
+printf("UB_lapse:%f,sol_lapse:%f,UB_ratio:%f%%\n", (double)UB_lapse / CLOCKS_PER_SEC, (double)sol_lapse / CLOCKS_PER_SEC,
+	   (double)100 * UB_lapse / (UB_lapse + sol_lapse));
 
-	return 0;
+return 0;
 }
