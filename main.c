@@ -95,14 +95,12 @@ int main(void)
 		if (min_relocation == -1)
 		{
 			timeup++;
-			getchar();
 		}
 		else
 		{
 			sol_lapse += clock() - time_start;
 			sum += min_relocation;
 			gap += min_relocation - LB1;
-			break;
 			if (UB != -1)
 			{
 				UB_gap += UB - min_relocation;
