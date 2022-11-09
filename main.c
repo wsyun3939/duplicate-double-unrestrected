@@ -62,11 +62,11 @@ int main(void)
 				fclose(fp_read);
 			}
 		}
-		if (a % 100 == 1)
-		{
-			sprintf(filename, "../alpha=%.1f/%d-%d-%d_unrestricted.csv", ALPHA, TIER, STACK, nblock);
-			fp_write = fopen(filename, "w");
-		}
+
+		sprintf(filename, "../alpha=%.1f/%d-%d-%d_unrestricted.csv", ALPHA, TIER, STACK, nblock);
+		fp_write = fopen(filename, "a");
+
+		printf("%d\n", result[a % 100 - 1]);
 		if (result[a % 100 - 1] == -1)
 		{
 			FILE *fp = NULL;
@@ -147,11 +147,11 @@ int main(void)
 			fprintf(fp_write, "%d\n", result[a % 100 - 1]);
 			sum += result[a % 100 - 1];
 		}
+		fclose(fp_write);
 
 		if (a % 100 == 0)
 		{
 			nblock++;
-			fclose(fp_write);
 		}
 	}
 	clock_t end = clock();
