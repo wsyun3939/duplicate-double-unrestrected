@@ -38,7 +38,6 @@ int main(void)
 
 	int sum = 0;
 	int missmatch = 0;
-	double max_time = 0;
 
 	char filename[BUFFER];
 	char str[BUFFER];
@@ -69,13 +68,12 @@ int main(void)
 		}
 
 		printf("%d\n", result[(a - 1) % 100]);
-		if (result[(a - 1) % 100] == -1)
+		if (result[(a - 1) % 100] != -1)
 		{
 			FILE *fp = NULL;
 			sprintf(filename, "../alpha=%.1f/%d-%d-%d/%05d.txt", ALPHA, TIER, STACK, nblock, a);
 			printf("%s\n", filename);
 
-			clock_t max_s = clock();
 			//	読み込みモードでファイルを開く
 			fp = fopen(filename, "r");
 
@@ -114,9 +112,6 @@ int main(void)
 				branch_and_bound(stack, UB, UB_cur, LB1, priority, both, 0, 0, clock());
 
 			printf("min_relocation:%d,difference%d\n", min_relocation, min_relocation - LB1);
-			clock_t max_e = clock();
-			if (max_time < (max_e - max_s))
-				max_time = max_e - max_s;
 			if (min_relocation == -1)
 			{
 				timeup++;
@@ -147,7 +142,7 @@ int main(void)
 		else
 		{
 			fprintf(fp_write, "%d\n", result[(a - 1) % 100]);
-			sum += result[(a - 1) % 100];
+			timeup++;
 		}
 
 		if (a % 100 == 0)
@@ -160,9 +155,9 @@ int main(void)
 	Array_terminate(stack);
 
 	putchar('\n');
-	printf("time:%f,max_time=%f,match:%d,ave:%f,gap:%f,missmatch:%d,timeup:%d,infeasible:%d,UB_gap:%f\n", (double)(end - start) / (CLOCKS_PER_SEC * 100 * TIER), max_time / CLOCKS_PER_SEC, k, (double)sum / (100 * TIER - timeup), (double)gap / (100 * TIER - k - timeup), missmatch, timeup, infeasible, (double)UB_gap / (100 * TIER - timeup - infeasible));
+	printf("match:%d,ave:%f,gap:%f,missmatch:%d,timeup:%d,infeasible:%d,UB_gap:%f\n", k, (double)sum / (100 * TIER - timeup), (double)gap / (100 * TIER - k - timeup), missmatch, timeup, infeasible, (double)UB_gap / (100 * TIER - timeup - infeasible));
 
-	printf("UB_lapse:%f,sol_lapse:%f,UB_ratio:%f%%\n", (double)UB_lapse / CLOCKS_PER_SEC, (double)sol_lapse / CLOCKS_PER_SEC,
+	printf("UB_lapse:%f,sol_lapse:%f,UB_ratio:%f%%\n", (double)UB_lapse / CLOCKS_PER_SEC, (double)(end - start) / (CLOCKS_PER_SEC * (100 * TIER - timeup)),
 		   (double)100 * UB_lapse / (UB_lapse + sol_lapse));
 
 	return 0;
