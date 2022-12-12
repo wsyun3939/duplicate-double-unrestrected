@@ -201,9 +201,9 @@ int branch_and_bound(IntDequeue *q, int UB, int UB_cur, int LB, int priority, di
 			int num_open = 0;
 			for (int n = 0; n <= STACK - 1; n++)
 			{
-				num_open += TIER - q_temp[n].num;
+				num_open += TIER - q[n].num;
 			}
-			if (num_open < nblocking(q_temp, dir))
+			if (num_open < nblocking(q, dir))
 			{
 				continue;
 			}

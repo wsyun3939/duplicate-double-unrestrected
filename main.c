@@ -67,7 +67,6 @@ int main(void)
 			fp_write = fopen(filename, "w");
 		}
 
-		printf("%d\n", result[(a - 1) % 100]);
 		if (result[(a - 1) % 100] != -1)
 		{
 			FILE *fp = NULL;
